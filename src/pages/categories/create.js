@@ -3,14 +3,15 @@ import { Container } from 'react-bootstrap';
 import SBreadCrum from '../../components/BreadCrum';
 import SAlert from '../../components/alert';
 import Form from './form';
-// import { postData } from '../../utils/fetchData';
+import { postData } from '../../utils/fetchData';
 import { useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { setNotif } from '../../redux/notif/actions';
+import { useDispatch } from 'react-redux';
+import { setNotif } from '../../redux/notif/action';
 
 function CategoryCreate() {
+  const token = localStorage.getItem('token')
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     name: '',
   });
@@ -30,14 +31,15 @@ function CategoryCreate() {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      // const res = await postData('api/v1/categories', form);
-      // dispatch(
-      //   setNotif(
-      //     true,
-      //     'success',
-      //     `berhasil tambah kategori ${res.data.data.name}`
-      //   )
-      // );
+      // const res = await axios.post ('api/v1/categories', form);
+      const res = await postData ('/cms/categories', form);
+      dispatch(
+        setNotif(
+          true,
+          'success',
+          `berhasil tambah kategori ${res.data.data.name}`
+        )
+      );
       navigate('/categories');
       setIsLoading(false);
     } catch (err) {
@@ -46,7 +48,7 @@ function CategoryCreate() {
         ...alert,
         status: true,
         type: 'danger',
-        message: err.response.data.msg,
+        message: 'Data tersebut sudah ada',
       });
     }
   };

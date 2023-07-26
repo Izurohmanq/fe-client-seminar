@@ -1,21 +1,12 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React from "react"; 
 import { Container, Table } from "react-bootstrap";
 import SButton from "../../components/button";
 import SBreadCrum from "../../components/BreadCrum";
-import SNavbar from "../../components/Navbar";
 
 function Dashboard() {
-	const token = localStorage.getItem("token");
-
-	// kalau tokennya salah kita balikkan ke signin
-	if (!token) {
-		return <Navigate to="/signin" replace={true} />;
-	}
 
 	return (
 		<Container>
-			<SNavbar />
 
 			<div className="m-3 ">
 				<SBreadCrum />

@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { Form } from 'react-bootstrap';
 import SButton from '../../components/button';
 import TextInputWithLabel from '../../components/TextInputWithLabel';
@@ -20,7 +20,7 @@ function CategoriesForm({
         type='text'
         onChange={handleChange}
       />
-      <SButton variant='primary' action={handleSubmit} loading={isLoading}>
+      <SButton className='mt-4' variant='primary' action={handleSubmit} loading={isLoading}>
         {edit ? 'Ubah' : 'Simpan'}
       </SButton>
     </Form>

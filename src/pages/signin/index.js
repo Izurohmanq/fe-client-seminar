@@ -1,13 +1,14 @@
 import { Card, Container, Form } from "react-bootstrap";
 import { useState } from "react";
-import axios from "axios";
 import SAlert from "../../components/alert";
-import { Navigate, useNavigate } from "react-router-dom";
-import { config } from "../../config";
+import {  useNavigate } from "react-router-dom";
 import FormCompo from "./form";
+import { postData } from "../../utils/fetchData";
+import { useDispatch  } from "react-redux";
+import { userLogin } from "../../redux/auth/action";
 
 function PageSignin() {
-    const token = localStorage.getItem('token') // kita ambil dlu tokennya
+    const dispatch = useDispatch() 
     const navigate = useNavigate()
     const [form, setForm] = useState({
         email: '',
@@ -29,10 +30,10 @@ function PageSignin() {
     const handleSubmit = async() => {
         setLoading(true)
         try {
-            const result = await axios.post(`${config.api_host_dev}/cms/auth/signin`,
-            form
+            const result = await postData (`/cms/auth/signin`,
+            form  
             )
-            localStorage.setItem('token', result.data.data.token)
+            dispatch(userLogin(result.data.data.token, result.data.data.role,))
             setLoading(false)
             navigate('/') //buat ngarahin ke halaman selanjutnya
         } catch (error) {
@@ -45,11 +46,6 @@ function PageSignin() {
         }
     }
     
-    if (token) { // kalau misalkan ada tokennya ya gak bisa masuk ke signin
-        return (
-            <Navigate to='/' replace={true} />
-        )
-    }
 	return (
 		<Container>
             <div className="m-auto w-50 mt-3">
